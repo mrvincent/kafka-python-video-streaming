@@ -5,14 +5,14 @@ import cv2
 from kafka import KafkaProducer
 from kafka.errors import KafkaError
 
-producer = KafkaProducer(bootstrap_servers='localhost:9092')
+producer = KafkaProducer(bootstrap_servers='192.168.4.133:9092')
 topic = 'my-topic'
 
 
-def emit_video(path_to_video):
+def emit_video():
     print('start emitting')
 
-    video = cv2.VideoCapture(path_to_video)
+    video = cv2.VideoCapture(0)
 
     while video.isOpened():
         success, frame = video.read()
@@ -32,7 +32,7 @@ def emit_video(path_to_video):
         print('.', end='', flush=True)
 
         # to reduce CPU usage
-        time.sleep(0.2)
+        time.sleep(0.03)
     print()
 
     video.release()
@@ -41,7 +41,4 @@ def emit_video(path_to_video):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print('You need to specify a path to video file.')
-        sys.exit(1)
-    emit_video(sys.argv[1])
+    emit_video()
